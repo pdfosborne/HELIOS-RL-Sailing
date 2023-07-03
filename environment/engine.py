@@ -26,11 +26,15 @@ class Engine:
         return Engine.vel(theta, theta_0, theta_dead) * np.cos(theta)
     # --------------------------
 
-    def reset(self):
+    def reset(self, start_obs:str=None):
         """Fully reset the environment."""
-        #obs, _ = self.Environment.reset()
-        self.x = np.random.uniform(-9.9, 9.9)
-        self.angle = 0  # always start with angle 0
+        # Allow reset to be at fixed start position or random
+        if start_obs:
+            self.x = float(start_obs.split('_')[0])
+            self.angle = float(start_obs.split('_')[1])
+        else:
+            self.x = np.random.randint(-9.9, 9.9) # Changed to rand_int to reduce num of start states
+            self.angle = 0  # always start with angle 0
         self.y = 0
         obs = str(self.x)+'_'+str(self.angle)
         return obs
@@ -38,10 +42,6 @@ class Engine:
     
     def step(self, state:any, action:any):
         """Enact an action."""
-        # In problems where the agent can choose to reset the env
-        if (state=="ENV_RESET")|(action=="ENV_RESET"):
-            self.reset()
-            
         a = [-0.1, 0.1][action]
 
         # Observation space
@@ -49,7 +49,7 @@ class Engine:
         self.y += (Engine.vel(self.angle + a) * np.cos(self.angle + a))
         self.angle += a
         obs = str(self.x)+'_'+str(self.angle)
-        
+
         # Reward signal
         reward = Engine.rew(self.angle)
 
