@@ -29,7 +29,7 @@ def main():
 
     # HELIOS Instruction Following
     num_plans = 50
-    num_explor_epi = 5000
+    num_explor_epi = 50000
     sim_threshold = 0.95
 
     observed_states = None
