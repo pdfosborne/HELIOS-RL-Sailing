@@ -2,6 +2,9 @@
 
 Application of the HELIOS-RL system to a Sailing Simulator.
 
+HELIOS-RL
+https://github.com/pdfosborne/HELIOS-RL
+
 Sailing Simulator:
  - https://github.com/topics/sailing-simulator
  - Simple sailing simulator from https://github.com/PPierzc/ai-learns-to-sail

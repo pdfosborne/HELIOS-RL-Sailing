@@ -56,11 +56,15 @@ class Engine:
         # Termination signal
         # - Source: Terminal only on hitting piers/walls, otherwise continues to action limiit
         # - Update: Add terminal state if y > 25 (or another arbirary value)
+        # - Update: Limit angle to [-90,90] degrees (i.e. no backwards sailing)
         if np.abs(self.x)>10:
             reward = -1
             terminated = True
         elif np.abs(self.y)>25:
             reward = 1
+            terminated = True
+        elif np.abs(self.angle)>90:
+            reward = -1
             terminated = True
         else:
             terminated = False
