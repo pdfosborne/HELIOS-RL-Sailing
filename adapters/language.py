@@ -28,37 +28,38 @@ class LanguageAdapter:
         angle = float(state.split('_')[1])
         
         # Horizontal position
-        if (x>-0.5)&(x<0.5):
-            L_x = 'dead center of the river'
-        elif (x>-1)&(x<1):
-            L_x = 'very close to the center of the river'
+        if (x>-1)&(x<1):
+            L_x = 'in the middle'
         elif (x>-3)&(x<3):
-            L_x = 'near the center of the river'
-        elif (x<-9)|(x>9):
-            L_x = 'very close to the edge of the river'
-        elif (x<-7)|(x>7):
-            L_x = 'near to the edge of the river'
-        elif (x<=-3)|(x>=3):
-            L_x = 'in between the edge and the center of the river'
+            L_x = 'near to the center'
+        elif (x>-5)&(x<5):
+            L_x = 'in between the edge and the center'
+        elif (x>-7)&(x<7):
+            L_x = 'near to the edge'
+        elif (x>=-10)&(x<=10):
+            L_x = 'very close to the edge'
         else:
-            L_x = 'in the river'
+            L_x = 'out of bounds'
+
         # Side of river
-        if x<-0.5:
-            L_x_side = 'on the left'
-        elif x>0.5:
-            L_x_side = 'on the right'
+        if x<0:
+            L_x_side = 'on the harbor side of the river'
+        elif x>0:
+            L_x_side = 'on the beach side of the river'
         else:
             L_x_side = ''
 
         # Angle
+        # - Defined in radians where 90deg = 1.57
+        # - Peak velocity at  45deg = pi/4 = 0.7853...
         if angle==0:
             L_angle = 'facing directly into the wind'
         elif (angle>-0.1)&(angle<0.1):
             L_angle = 'facing into the wind'
         elif (angle>-0.5)&(angle<0.5):
-            L_angle = 'cutting the wind'
+            L_angle = 'close hauled with wind'
         elif (angle>-1)&(angle<1):
-            L_angle = 'somewhat cutting the wind'
+            L_angle = 'cutting the wind'
         else:
             L_angle = 'moving across the wind'
         # Wind side
@@ -69,10 +70,10 @@ class LanguageAdapter:
         else:
             L_wind_side = ''
 
-        L_state = 'The boat is ' + L_x_side + ' and ' + L_x + ', ' + L_angle + ' ' + L_wind_side + ','
+        L_state = 'The boat is ' + L_x_side + ' ' + L_x + ', ' + L_angle + ' ' + L_wind_side + ', '
         L_state = L_state.replace('  ', ' ').replace(' .','.').replace(' ,',',').replace(' and,','') # Remove double spaces
         
-        # Last action taken and final language state ouput
+        # Last action taken and final language state output
         if len(episode_action_history)>0:    
             last_action = episode_action_history[-1]
             # if last_action==0:
@@ -80,22 +81,18 @@ class LanguageAdapter:
             # elif last_action==1:
             #     L_action = 'the last action was to turn to the right slightly.'
 
-            if (x<0)&(last_action==0):
-                L_action = 'the last action was to turn towards the edge of the river.'
+            if (x<=0)&(last_action==0):
+                L_action = 'the last action was to turn towards the harbor.'
             elif (x<0)&(last_action==1):
                 L_action = 'the last action was to turn towards the center of the river.'
-            elif (x>0)&(last_action==1):
-                L_action = 'the last action was to turn towards the edge of the river.'
+            elif (x>=0)&(last_action==1):
+                L_action = 'the last action was to turn towards the beach.'
             elif (x>0)&(last_action==0):
                 L_action = 'the last action was to turn towards the center of the river.'
-            elif x==0:
-                L_action = 'the last action was to turn towards the edge of the river.'
 
             state = L_state + ' ' + L_action
         else:
-            state = L_state
-        
-        
+            state = L_state        
 
         #print(state)
 

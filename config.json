@@ -5,11 +5,11 @@
     "experience_sample_batch_ratio": 0,
      
     "number_training_episodes": 50000,
-    "number_training_repeats": 1,
-    "number_training_seeds": 50,
+    "number_training_repeats": 20,
+    "number_training_seeds": 1,
 
     "number_test_episodes": 1000,
-    "number_test_repeats": 25,
+    "number_test_repeats": 20,
 
     "agent_select": ["Qlearntab"],
     "agent_parameters":{
@@ -41,5 +41,6 @@
                 "epsilon": 0.2,
                 "epsilon_step":0.01
             }
+            
     }
 }

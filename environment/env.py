@@ -20,7 +20,11 @@ class Environment:
 
     def __init__(self, local_setup_info: dict):
         # --- INIT env from engine
-        self.env = Engine()
+        try:
+            supervised_rewards = local_setup_info['data']['supervised_rewards']
+        except:
+            supervised_rewards = local_setup_info['supervised_rewards']
+        self.env = Engine(supervised_rewards)
         self.start_obs = self.env.reset()
         # ---
         # --- PRESET HELIOS INFO
@@ -56,6 +60,9 @@ class Environment:
             # ---
             # Start observation is used instead of .reset() fn so that this can be overriden for repeat analysis from the same start pos
             obs = self.env.reset(start_obs=self.start_obs)
+            if obs != '0.0000_0.0':
+                print(" ---------- ")
+                print("Start Observation: ", obs)
             legal_moves = self.env.legal_move_generator(obs)
             state = self.agent_state_adapter.adapter(state=obs, legal_moves=legal_moves, episode_action_history=action_history, encode=True)
             # ---
@@ -87,10 +94,16 @@ class Environment:
                             if next_obs == self.sub_goal:
                                 reward = self.reward_signal[0]
                                 terminated = True
+                                # Required if we want exact sub-goal end position for next instruction
+                                self.sub_goal_end = next_obs
                         elif (type(self.sub_goal)==type(list('')))|(type(self.sub_goal)==type([0])):    
                             if next_obs in self.sub_goal:
                                 reward = self.reward_signal[0]
-                                terminated = True         
+                                terminated = True
+                                # Required if we want exact sub-goal end position for next instruction
+                                self.sub_goal_end = next_obs
+                                print("---------------------------------")
+                                print("Sub-Goal Reached: ", next_obs)
                         else:
                             print("Sub-Goal Type ERROR: The input sub-goal type must be a str/int or list(str/int).")               
                 else:
