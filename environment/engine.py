@@ -139,7 +139,7 @@ class Engine:
             reward = -1
             terminated = True
         elif np.abs(self.angle)>self.angle_limit:
-            print("Angle limit reached")
+            print("\n \t - Angle limit reached")
             reward = -1
             terminated = True
         else:

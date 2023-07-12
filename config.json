@@ -4,7 +4,7 @@
     
     "experience_sample_batch_ratio": 0,
      
-    "number_training_episodes": 50000,
+    "number_training_episodes": 5000,
     "number_training_repeats": 20,
     "number_training_seeds": 1,
 
@@ -14,9 +14,9 @@
     "agent_select": ["Qlearntab"],
     "agent_parameters":{
         "Qlearntab":{
-            "alpha": 0.05,
+            "alpha": 0.1,
             "gamma": 0.95,
-            "epsilon": 0.2,
+            "epsilon": 0.3,
             "epsilon_step":0.01
             },
         "Neural_Q":{
@@ -40,7 +40,8 @@
                 "memory_size": 2000,
                 "epsilon": 0.2,
                 "epsilon_step":0.01
-            }
+            },
+        "Random":{}
             
     }
 }

@@ -16,6 +16,7 @@ If setup correctly then the rest is handled by the HELIOS system
 # Instruction following
 
 ### Instruction: Descriptions
+
 - dead center from left/right: dead center of the river
   NEW -> center from left/right: move to the middle of the river
 
@@ -36,6 +37,11 @@ V2.3:
 - beach side: continue so that the boat is halfway between the center and the edge of the river but on the beach side with the wind on the port side of the boat
 - turn back from beach: when the boat is halfway between the center and the edge of the river on the beach side, turn back towards the center so the wind is on the starboard side
 
+V2.4:
+- beach side: continue so that the boat is halfway between the center and the edge of the river but on the beach side with the wind on the port side of the boat
+- turn back from beach: when the boat is halfway between the center and the edge of the river on the beach side, turn back towards the center so the wind is on the starboard side
+- harbor side: continue so that the boat is halfway between the center and the edge of the river but on the harbor side with the wind on the starboard side of the boat
+- turn back from harbor: when halfway between the center and the edge of the river on the harbor side, turn back towards the center so the wind is on the port side
 
 
 
