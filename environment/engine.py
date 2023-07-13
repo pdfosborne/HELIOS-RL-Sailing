@@ -11,15 +11,15 @@ class Engine:
         - step() to make an action and update the game state
         - legal_moves_generator() to generate the list of legal moves
     """
-    def __init__(self, supervised_rewards:str="True") -> None:
+    def __init__(self, supervised_rewards:str="True", y_limit:int=25, obs_precision:int=4) -> None:
         """Initialize Engine"""
         #self.Environment = "Engine Initialization"
         self.x_limit = 10
-        self.y_limit = 25
+        self.y_limit = y_limit
         self.angle_limit = np.pi / 2
         self.supervised_rewards = supervised_rewards
-        # [-10~-9, -9~-7, -7~-3, -3~-1, -1~1, 1~3, 3~7, 7~9, 9~10]
-        self.x_checker = [False, False, False, False, False, False, False, False, False, False]
+        # Precision parameter
+        self.obs_precision = obs_precision
     # --------------------------
     # Defined functions used by engine source
     @staticmethod
@@ -35,13 +35,13 @@ class Engine:
         """Fully reset the environment."""
         # Allow reset to be at fixed start position or random
         if start_obs:
-            self.x = np.round(float(start_obs.split('_')[0]),4)
+            self.x = np.round(float(start_obs.split('_')[0]),self.obs_precision)
             self.angle = np.round(float(start_obs.split('_')[1]),1)
         else:
             self.x = 0 #np.round(np.random.randint(-9.9, 9.9),4) # Changed to rand_int to reduce num of start states
             self.angle = 0  # always start with angle 0
         self.y = 0
-        obs = "{:0.4f}".format(self.x)+'_'+"{:0.1f}".format(self.angle)
+        obs = "{n:.{d}f}".format(n=self.x, d=self.obs_precision)+'_'+"{:0.1f}".format(self.angle)
         return obs
 
     
@@ -49,73 +49,11 @@ class Engine:
         """Enact an action."""
         a = [-0.1, 0.1][action]
         # Observation space
-        self.x += np.round((Engine.vel(self.angle + a) * np.sin(self.angle + a)),4) # Round x to 2dp
-        # Exploration X position checking
-        if ((self.x)<-9):
-            if (self.x_checker[0]==False):
-                print(" ")
-                print("x = ",self.x)
-                self.x_checker[0] = True
-                print(self.x_checker)
-        elif ((self.x)<-7):
-            if (self.x_checker[1]==False):
-                print(" ")
-                print("x = ",self.x)
-                self.x_checker[1] = True
-                print(self.x_checker)
-        elif ((self.x)<-3):
-            if (self.x_checker[2]==False):
-                print(" ")
-                print("x = ",self.x)
-                self.x_checker[2] = True
-                print(self.x_checker)
-        elif ((self.x)<-1):
-            if (self.x_checker[3]==False):
-                print(" ")
-                print("x = ",self.x)
-                self.x_checker[3] = True
-                print(self.x_checker)
-        elif ((self.x)<0):
-            if (self.x_checker[4]==False):
-                print(" ")
-                print("x = ",self.x)
-                self.x_checker[4] = True
-                print(self.x_checker)
-        elif ((self.x)<1):
-            if (self.x_checker[5]==False):
-                print(" ")
-                print("x = ",self.x)
-                self.x_checker[5] = True
-                print(self.x_checker)
-        elif ((self.x)<3):
-            if (self.x_checker[6]==False):
-                print(" ")
-                print("x = ",self.x)
-                self.x_checker[6] = True
-                print(self.x_checker)
-        elif ((self.x)<7):
-            if (self.x_checker[7]==False):
-                print(" ")
-                print("x = ",self.x)
-                self.x_checker[7] = True
-                print(self.x_checker)
-        elif ((self.x)<9):
-            if (self.x_checker[8]==False):
-                print(" ")
-                print("x = ",self.x)
-                self.x_checker[8] = True
-                print(self.x_checker)
-        elif ((self.x)<10):
-            if (self.x_checker[9]==False):
-                print(" ")
-                print("x = ",self.x)
-                self.x_checker[9] = True
-                print(self.x_checker)
-
-        self.y += np.round((Engine.vel(self.angle + a) * np.cos(self.angle + a)),4) # Round y to 2dp
+        self.x += np.round((Engine.vel(self.angle + a) * np.sin(self.angle + a)),self.obs_precision) # Round x to Ndp
+        self.y += np.round((Engine.vel(self.angle + a) * np.cos(self.angle + a)),4) # Round y to 4dp
         self.angle = np.round(self.angle+a,1) 
         #obs = str(self.x)+'_'+str(self.angle)
-        obs = "{:0.4f}".format(self.x)+'_'+"{:0.1f}".format(self.angle) # fix - https://docs.python.org/3.4/library/string.html#format-specification-mini-language
+        obs = "{n:.{d}f}".format(n=self.x, d=self.obs_precision)+'_'+"{:0.1f}".format(self.angle) # fix - https://docs.python.org/3.4/library/string.html#format-specification-mini-language
 
         # Reward signal
         # - Added flag for whether we give agent immediate positive reward
