@@ -47,6 +47,9 @@ class Environment:
             self.sub_goal:list = local_setup_info['sub_goal']
         else:
             self.sub_goal:list = None
+        # New: multi sub-goal paths used for continuous instruction plans
+        # - Would not be defined by config files but rather experiment module so dont need to define in terms of local_setup_info
+        self.multi_sub_goal:dict = None
 
     def episode_loop(self):
         # Mode selection (already initialized)
@@ -105,7 +108,16 @@ class Environment:
                                 print("---------------------------------")
                                 print("Sub-Goal Reached: ", next_obs)
                         else:
-                            print("Sub-Goal Type ERROR: The input sub-goal type must be a str/int or list(str/int).")               
+                            print("Sub-Goal Type ERROR: The input sub-goal type must be a str/int or list(str/int).") 
+                    # New: multi sub-goal completion for continuous chaining
+                    # - If sub-task completed, obtain scaled reward based on instruction scale
+                    if self.multi_sub_goal:
+                        for multi_goal in self.multi_sub_goal:
+                            if next_obs in self.multi_sub_goal[multi_goal]['sub_goal']:
+                                multi_goal_reward_scale = self.multi_sub_goal[multi_goal]['reward_scale']
+                                reward = self.reward_signal[0]*multi_goal_reward_scale
+                                print("\n - Sub-goal completed: ", multi_goal, " -> reward after scaling = ", reward)
+                                break # Assume state is unique to completing one sub-step (first used)                   
                 else:
                     # Experience Sampling
                     legal_moves = self.helios.experience_sampling_legal_actions(state)

@@ -43,7 +43,14 @@ V2.4:
 - harbor side: continue so that the boat is halfway between the center and the edge of the river but on the harbor side with the wind on the starboard side of the boat
 - turn back from harbor: when halfway between the center and the edge of the river on the harbor side, turn back towards the center so the wind is on the port side
 
-
+V2.5:
+- Same instr path as 2.4
+- Adds use of continuous instruction chaining -> prior sub-goals are now included in current env with reduced reward
+- Sub-goals no longer terminate environment so agent can reach end goal if possible
+- Total reward per episode can be increased by reaching sub-goals en-route to end goal 
+- But need to ensure agent doesn't just go in circles for easy reward so either:
+  - Reduce sub-goal reward (easy update in config) or,
+  - Only first encounter gets the reward (requires further changes to env loop)
 
 
 
