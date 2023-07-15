@@ -1,0 +1,4 @@
+10k episodes
+20 training repeats
+10 testing repeats
+0.2 instruction paramer -> 4 instr for 8k epi then 2k for long-term goal

@@ -28,7 +28,7 @@ def main():
     # - We do not run search methodology (assume we cannot interface directly)
     # - Search has been completed and we call the results of this to then train the agents to sub-goal/goals
     task = ProblemConfig['env_select']
-    version = '2.5'
+    version = '2.5.2'
     save_dir = './output/'+str(task)+'_'+version
     
     data = open(save_dir+'/Reinforced_Instr_Experiment/instruction_predictions.json','r')
