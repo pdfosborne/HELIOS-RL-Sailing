@@ -41,7 +41,7 @@ def main():
     reinforced_experiment = HELIOS_OPTIMIZE(Config=ExperimentConfig, LocalConfig=ProblemConfig, 
                     Environment=Environment,
                     save_dir=save_dir+'/Reinforced_Instr_Experiment', show_figures = 'No', window_size=0.1,
-                    instruction_path=None, predicted_path=instruction_results, instruction_episode_ratio=0.1,
+                    instruction_path=None, predicted_path=instruction_results, instruction_episode_ratio=0.2,
                     instruction_chain=True, instruction_chain_how='continuous')
     reinforced_experiment.train()
     reinforced_experiment.test()

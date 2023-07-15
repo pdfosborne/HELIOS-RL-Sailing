@@ -88,7 +88,8 @@ class Environment:
         else:
             number_episodes = self.num_test_episodes
 
-        self.sub_goal = sub_goal_precision(self.sub_goal, self.obs_precision)
+        if self.sub_goal:
+            self.sub_goal = sub_goal_precision(self.sub_goal, self.obs_precision)
 
         sub_goal_tracker = {} # Used to track sub-goal completion -> re-call most common end state for start of next with EXACT chaining
         sub_goal_best = 0

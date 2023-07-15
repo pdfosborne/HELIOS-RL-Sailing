@@ -32,13 +32,8 @@ class DefaultAdapter:
 
     _cached_state_idx: Dict[str, int] = dict()
     def __init__(self):
-        # TODO: Update this based on the current problem, each requires preset knowledge of all possible states/actions/objects
-        # - Possible Atates
-        # - Possible Actions
-        # - Prior Actions
-        # - Possible Objects
-    
-        # Initialise encoder based on all possilbe env states
+        # ------ State Encoder ---------------------------------------
+        # Initialise encoder based on all possible env states
         all_possible_x = [i*-1 for i in range(40)]
         all_possible_angle = [i for i in range(30)]
         # Need an index that preserves the identity of both the x and angle values
