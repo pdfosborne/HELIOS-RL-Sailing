@@ -4,7 +4,7 @@
     
     "experience_sample_batch_ratio": 0,
      
-    "number_training_episodes": 10000,
+    "number_training_episodes": 20000,
     "number_training_repeats": 20,
     "number_training_seeds": 1,
 

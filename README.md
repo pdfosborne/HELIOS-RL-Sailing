@@ -42,6 +42,7 @@ V2.4:
 - turn back from beach: when the boat is halfway between the center and the edge of the river on the beach side, turn back towards the center so the wind is on the starboard side
 - harbor side: continue so that the boat is halfway between the center and the edge of the river but on the harbor side with the wind on the starboard side of the boat
 - turn back from harbor: when halfway between the center and the edge of the river on the harbor side, turn back towards the center so the wind is on the port side
+- beach side -> re-specify to create cycle in meta-MDP
 
 V2.5:
 - Same instr path as 2.4
@@ -52,6 +53,10 @@ V2.5:
   - Reduce sub-goal reward (easy update in config) or,
   - Only first encounter gets the reward (requires further changes to env loop)
 
+V2.6:
+- From 2.4/2.5 we found that the search did not find many "turn back from harbor side" states and therefore optimal results were based on a single turn on the beach side
+- For 2.6, we specify the same instructions but we DO NOT create an instruction cycle but rather just the the completion of 2 turns (first from beach side then harbor side)
+- Repeat the analysis with 20k episodes and now fixed for only 4 instructions with 4k episodes per so that the final long-term goal gets 4k episodes to train from
 
 
 
