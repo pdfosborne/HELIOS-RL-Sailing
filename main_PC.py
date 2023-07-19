@@ -22,12 +22,12 @@ def main():
 
     # Specify save dir
     task = ProblemConfig['env_select']
-    version = '2.4'
+    version = '2.6'
     save_dir = './output/'+str(task)+'_'+version 
 
     # HELIOS Instruction Following
     num_plans = 5
-    num_explor_epi = 1000
+    num_explor_epi = 5000
     sim_threshold = 0.99
 
     observed_states = None
