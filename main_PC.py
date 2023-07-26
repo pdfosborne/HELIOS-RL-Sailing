@@ -22,7 +22,7 @@ def main():
 
     # Specify save dir
     task = ProblemConfig['env_select']
-    version = '2.6'
+    version = '2.7'
     save_dir = './output/'+str(task)+'_'+version 
 
     # HELIOS Instruction Following
