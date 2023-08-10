@@ -43,7 +43,8 @@ class DefaultAdapter:
                 index = str(x_ind)+'_'+str(angle_ind)
                 all_possible_states.append(index)
         # Input to pre-built possible state encoder
-        self.encoder = StateEncoder(all_possible_states)
+        #self.encoder = StateEncoder(all_possible_states)
+        self.encoder = {}
     
     
     def adapter(self, state:any, legal_moves:list = None, episode_action_history:list = None, encode:bool = True, indexed: bool = False) -> Tensor:
@@ -53,7 +54,14 @@ class DefaultAdapter:
 
         # Encode to Tensor for agents
         if encode:
-            state_encoded = self.encoder.encode(state=state)
+            #state_encoded = self.encoder.encode(state=state)
+            # HELIOS state encoder is large and not needed for tabular agents
+            # - Wont work for neural agents
+            if (state not in self.encoder):
+                state_encoded = torch.tensor(len(self.encoder))
+                self.encoder[state] = state_encoded
+            else:
+                state_encoded = self.encoder[state]
         else:
             state_encoded = state
 
