@@ -28,23 +28,23 @@ def main():
     # - We do not run search methodology (assume we cannot interface directly)
     # - Search has been completed and we call the results of this to then train the agents to sub-goal/goals
     task = ProblemConfig['env_select']
-    version = '2.XXXX'
+    version = 'Numeric_50k'
     save_dir = './output/'+str(task)+'_'+version
     
-    data = open(save_dir+'/Reinforced_Instr_Experiment/instruction_predictions.json','r')
-    instruction_results = json.loads(data.read())
+    # data = open(save_dir+'/Reinforced_Instr_Experiment/instruction_predictions.json','r')
+    # instruction_results = json.loads(data.read())
 
-    # ----
+    # # ----
 
-    # Take Instruction path now defined with reinforced+unsupervised sub-goal locations and train to these
-    # Init experiment setup with sub-goal defined
-    reinforced_experiment = HELIOS_OPTIMIZE(Config=ExperimentConfig, LocalConfig=ProblemConfig, 
-                    Environment=Environment,
-                    save_dir=save_dir+'/Reinforced_Instr_Experiment', show_figures = 'No', window_size=0.1,
-                    instruction_path=None, predicted_path=instruction_results, instruction_episode_ratio=0.2,
-                    instruction_chain=True, instruction_chain_how='continuous')
-    reinforced_experiment.train()
-    reinforced_experiment.test()
+    # # Take Instruction path now defined with reinforced+unsupervised sub-goal locations and train to these
+    # # Init experiment setup with sub-goal defined
+    # reinforced_experiment = HELIOS_OPTIMIZE(Config=ExperimentConfig, LocalConfig=ProblemConfig, 
+    #                 Environment=Environment,
+    #                 save_dir=save_dir+'/Reinforced_Instr_Experiment', show_figures = 'No', window_size=0.1,
+    #                 instruction_path=None, predicted_path=instruction_results, instruction_episode_ratio=0.2,
+    #                 instruction_chain=True, instruction_chain_how='continuous')
+    # reinforced_experiment.train()
+    # reinforced_experiment.test()
     
     # --------------------------------------------------------------------
     # Flat Baselines
@@ -54,22 +54,22 @@ def main():
     flat.train()  
     flat.test()
     # --------------------------------------------------------------------
-    # Combined results visual analysis
-    flat_results = pd.read_csv(save_dir+'/Standard_Experiment'+'/testing_variance_results.csv')
-    reinforced_results = pd.read_csv(save_dir+'/Reinforced_Instr_Experiment'+'/testing_variance_results.csv')
+    # # Combined results visual analysis
+    # flat_results = pd.read_csv(save_dir+'/Standard_Experiment'+'/testing_variance_results.csv')
+    # reinforced_results = pd.read_csv(save_dir+'/Reinforced_Instr_Experiment'+'/testing_variance_results.csv')
 
-    variance_results = {}
-    variance_results['Flat_agent'] = {}
-    variance_results['Flat_agent']['results'] = flat_results
-    variance_results['Flat_agent']['env_name'] = flat_results['agent'].iloc[0]
-    variance_results['Flat_agent']['num_repeats'] = flat_results['num_repeats'].iloc[0]
+    # variance_results = {}
+    # variance_results['Flat_agent'] = {}
+    # variance_results['Flat_agent']['results'] = flat_results
+    # variance_results['Flat_agent']['env_name'] = flat_results['agent'].iloc[0]
+    # variance_results['Flat_agent']['num_repeats'] = flat_results['num_repeats'].iloc[0]
 
-    variance_results['Reinforced_instructions'] = {}
-    variance_results['Reinforced_instructions']['results'] = reinforced_results
-    variance_results['Reinforced_instructions']['env_name'] = reinforced_results['agent'].iloc[0]
-    variance_results['Reinforced_instructions']['num_repeats'] = reinforced_results['num_repeats'].iloc[0]
+    # variance_results['Reinforced_instructions'] = {}
+    # variance_results['Reinforced_instructions']['results'] = reinforced_results
+    # variance_results['Reinforced_instructions']['env_name'] = reinforced_results['agent'].iloc[0]
+    # variance_results['Reinforced_instructions']['num_repeats'] = reinforced_results['num_repeats'].iloc[0]
 
-    combined_variance_analysis_graph(variance_results, save_dir, show_figures='N')
+    # combined_variance_analysis_graph(variance_results, save_dir, show_figures='N')
 
 if __name__=='__main__':
     main()
